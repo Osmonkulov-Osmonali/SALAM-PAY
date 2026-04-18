@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#1677FF">
+<title>САЛАМ PAY — Super App Кыргызстана</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231677FF'/%3E%3Cpath d='M50 75 L30 55 Q20 45 20 35 A15 15 0 0 1 50 35 A15 15 0 0 1 80 35 Q80 45 70 55 Z' fill='white'/%3E%3C/svg%3E">
+<style>
+:root{
+  --primary:#1677FF;--primary-d:#0958D9;--primary-l:#E6F4FF;--primary-50:#F4F8FF;
+  --hero-top:#2B7DFF;--hero-bot:#4C9AFF;
+  --green:#00B96B;--green-l:#E6F7EE;--green-d:#009C58;
+  --red:#FF4D4F;--red-l:#FFF2F0;
+  --orange:#FA8C16;--orange-l:#FFF7E6;
+  --yellow:#FAAD14;--yellow-l:#FFFBE6;
+  --purple:#722ED1;--purple-l:#F9F0FF;
+  --brown:#8B4513;--brown-d:#5C2E0A;
+  --text:#141414;--text2:#4E5969;--text3:#8C8C8C;--muted:#BFBFBF;
+  --bg:#F5F5F5;--bg2:#F7F8FA;--white:#fff;--border:#E5E6EB;--border-l:#F2F3F5;
+  --sh-xs:0 1px 2px rgba(0,0,0,.04);
+  --sh-sm:0 2px 8px rgba(0,0,0,.05);
+  --sh-md:0 4px 16px rgba(0,0,0,.08);
+  --sh-lg:0 12px 32px rgba(0,0,0,.12);
+  --sh-brand:0 6px 20px rgba(22,119,255,.25);
+  --r-lg:20px;--r:14px;--r-sm:10px;
+  --font:'Manrope',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:inherit}
+
+#app{display:flex;flex-direction:column;height:100vh;max-width:520px;margin:0 auto;background:var(--bg);position:relative;box-shadow:0 0 40px rgba(0,0,0,.04)}
+.content{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:72px;-webkit-overflow-scrolling:touch}
+.content::-webkit-scrollbar{display:none}
+.page{display:none;animation:fi .25s ease}
+.page.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{background:linear-gradient(180deg,var(--hero-top),var(--hero-bot));padding:44px 16px 18px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+.hero-top-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;position:relative;z-index:1}
+.city-pick{display:flex;align-items:center;gap:5px;color:white;font-size:16px;font-weight:800;cursor:pointer}
+.city-pick svg{width:14px;height:14px;opacity:.8}
+.search-wrap{flex:1;background:white;border-radius:22px;height:40px;display:flex;align-items:center;padding:0 6px 0 14px;gap:8px}
+.search-wrap input{flex:1;border:none;outline:none;font-size:14px;background:none;min-width:0}
+.search-wrap input::placeholder{color:var(--text3)}
+.search-scan{color:var(--primary);font-weight:700;font-size:13px;padding:6px 10px;border-left:1px solid var(--border-l);cursor:pointer;display:flex;align-items:center;gap:4px}
+.search-scan svg{width:16px;height:16px}
+.ai-btn{width:40px;height:40px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;font-weight:800;color:var(--primary);font-size:12px}
+
+.main-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;position:relative;z-index:1}
+.ma-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 4px;border-radius:12px;cursor:pointer}
+.ma-btn:active{background:rgba(255,255,255,.15)}
+.ma-ico{width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:white}
+.ma-ico svg{width:34px;height:34px;stroke-width:1.6}
+.ma-lbl{color:white;font-size:13px;font-weight:700}
+
+/* CAT section */
+.cat-section{background:white;margin:-14px 10px 10px;border-radius:var(--r-lg);padding:16px 0 14px;box-shadow:var(--sh-xs);position:relative;z-index:2}
+.cat-tabs{display:flex;gap:4px;overflow-x:auto;padding:0 16px 12px}
+.cat-tabs::-webkit-scrollbar{display:none}
+.cat-tab{padding:4px 10px;font-size:15px;font-weight:700;color:var(--text3);cursor:pointer;white-space:nowrap;flex-shrink:0;position:relative}
+.cat-tab.active{color:var(--text);font-weight:800}
+.cat-tab.active::after{content:'';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);width:18px;height:3px;background:var(--primary);border-radius:2px}
+
+.services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 8px 0}
+.svc-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-radius:12px;cursor:pointer;position:relative}
+.svc-btn:active{background:var(--primary-50)}
+.svc-ico{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.svc-ico svg{width:26px;height:26px}
+.svc-lbl{font-size:12px;color:var(--text);font-weight:600;text-align:center;line-height:1.3}
+
+/* Cards */
+.notif-card{background:white;margin:0 10px 10px;border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:10px;box-shadow:var(--sh-xs);cursor:pointer}
+.notif-ico{width:28px;height:28px;background:var(--primary-l);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.notif-ico svg{width:16px;height:16px;color:var(--primary)}
+.notif-txt{flex:1;font-size:14px}
+.notif-arr{color:var(--text3);font-size:16px}
+
+.bal-card{background:linear-gradient(135deg,#FFFBEE,#FFF3D4);margin:0 10px 10px;border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;border:1px solid #FFE8A3}
+.bal-ico{width:48px;height:44px;background:linear-gradient(135deg,#FFD666,#FAAD14);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bal-ico svg{width:24px;height:24px;color:white}
+.bal-info{flex:1}
+.bal-t{font-size:15px;font-weight:800}
+.bal-v{font-size:12px;color:var(--text3);margin-top:2px}
+.bal-n{font-size:20px;font-weight:800;font-family:var(--mono);color:#D48806}
+
+.section-title-row{display:flex;justify-content:space-between;align-items:center;padding:16px 16px 10px}
+.stitle-big{font-size:18px;font-weight:800}
+.stitle-more{font-size:13px;color:var(--text3);cursor:pointer}
+
+.offer-card{background:linear-gradient(135deg,#FDF2FF,#F3E8FF);margin:0 10px 10px;border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:12px;border:1px solid rgba(114,46,209,.15)}
+.offer-badge{background:var(--purple);color:white;font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px}
+.offer-info{flex:1}
+.offer-title{font-size:14px;font-weight:700}
+.offer-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.claim-btn{background:var(--purple);color:white;border-radius:20px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer}
+
+.explore-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:0 10px}
+.explore-card{border-radius:var(--r);padding:18px 14px;color:white;font-size:17px;font-weight:800;min-height:84px;display:flex;align-items:flex-end;position:relative;overflow:hidden;cursor:pointer}
+.ec-emoji{position:absolute;top:10px;right:12px;font-size:26px;opacity:.6}
+
+/* PAGE HEADER */
+.page-header{background:var(--primary);padding:48px 16px 16px;color:white;position:relative;display:flex;align-items:center;gap:12px}
+.back-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:white;cursor:pointer;flex-shrink:0}
+.back-btn svg{width:22px;height:22px;stroke-width:2.5}
+.page-title{flex:1;font-size:17px;font-weight:700;text-align:center;margin-right:36px}
+.page-wrap{padding:14px}
+
+/* COMMON */
+.card{background:white;border-radius:var(--r);padding:16px;margin-bottom:10px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:10px;padding:12px 14px;font-size:14px;outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{background:white;border-color:var(--primary)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;background:var(--primary);color:white;border-radius:26px;padding:13px 16px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:var(--sh-brand)}
+.btn:hover{background:var(--primary-d)}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.btn.green{background:var(--green);box-shadow:0 6px 20px rgba(0,185,107,.3)}
+.btn.green:hover{background:var(--green-d)}
+.btn.ghost{background:transparent;color:var(--text2);border:1.5px solid var(--border);box-shadow:none}
+.btn.sm{padding:7px 14px;font-size:12px;width:auto;border-radius:14px;box-shadow:none}
+
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(16px);background:rgba(20,20,20,.92);color:white;padding:11px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:400;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{background:var(--green)}
+.toast.err{background:var(--red)}
+
+/* TX */
+.tx-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-l)}
+.tx-item:last-child{border-bottom:none}
+.tx-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+.tx-info{flex:1;min-width:0}
+.tx-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.tx-desc{font-size:12px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tx-right{text-align:right}
+.tx-amt{font-size:15px;font-weight:800;font-family:var(--mono)}
+.tx-amt.plus{color:var(--green)}
+.tx-date{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* WALLET PAGE */
+.wp-hero{background:linear-gradient(135deg,var(--primary),var(--primary-d));border-radius:var(--r-lg);padding:24px;color:white;text-align:center;margin-bottom:12px;position:relative;overflow:hidden}
+.wp-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 70%);border-radius:50%}
+.wp-lbl{font-size:12px;color:rgba(255,255,255,.75);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;position:relative;z-index:1}
+.wp-amt{font-size:38px;font-weight:800;font-family:var(--mono);letter-spacing:-1px;margin-bottom:6px;position:relative;z-index:1}
+.wp-amt.bump{animation:bump .6s ease}
+@keyframes bump{0%{transform:scale(1)}30%{transform:scale(1.08)}100%{transform:scale(1)}}
+.wp-sub{font-size:12px;color:rgba(255,255,255,.65);position:relative;z-index:1}
+
+.quick-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.qa-btn{background:white;border-radius:var(--r);padding:14px 8px;text-align:center;cursor:pointer;box-shadow:var(--sh-xs)}
+.qa-ico{width:36px;height:36px;border-radius:10px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center}
+.qa-ico svg{width:18px;height:18px}
+.qa-lbl{font-size:12px;font-weight:700}
+
+/* ACCOUNT PAGE */
+.acc-hdr{padding:44px 16px 20px;position:relative}
+.acc-gear{position:absolute;top:52px;right:16px;color:var(--text2);cursor:pointer}
+.acc-gear svg{width:22px;height:22px}
+.acc-user-row{display:flex;align-items:center;gap:14px;cursor:pointer}
+.acc-ava{width:62px;height:62px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:linear-gradient(135deg,#667EEA,#7B5EFF);color:white;font-size:24px;font-weight:800}
+.acc-user-info{flex:1}
+.acc-name{font-size:22px;font-weight:800;margin-bottom:6px}
+.acc-tags{display:flex;gap:6px;flex-wrap:wrap}
+.acc-tag{background:var(--primary-l);color:var(--primary);font-size:12px;font-weight:700;padding:3px 9px;border-radius:14px;display:inline-flex;align-items:center;gap:4px}
+.acc-tag svg{width:11px;height:11px}
+.acc-arr{color:var(--text3);font-size:20px}
+.acc-menu{background:white;border-radius:var(--r);margin:0 10px 10px;overflow:hidden}
+.acc-line{display:flex;align-items:center;padding:16px 14px;border-bottom:1px solid var(--border-l);cursor:pointer;gap:12px;width:100%;text-align:left}
+.acc-line:last-child{border-bottom:none}
+.acc-line:active{background:var(--bg2)}
+.acc-li-ico{width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.acc-li-ico svg{width:24px;height:24px}
+.acc-li-title{flex:1;font-size:16px;font-weight:700}
+.acc-li-val{font-size:13px;color:var(--text3);margin-right:6px}
+.acc-li-arr{color:var(--text3);font-size:18px}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;height:64px;background:white;border-top:1px solid var(--border-l);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--text3)}
+.nav-item svg{width:24px;height:24px;stroke-width:1.8}
+.nav-item .nl{font-size:11px;font-weight:700}
+.nav-item.active{color:var(--primary)}
+.nav-item.active svg{fill:rgba(22,119,255,.1)}
+
+/* TAXI */
+.map-box{background:linear-gradient(135deg,#1a2332,#0f1829);border-radius:var(--r);padding:20px;min-height:200px;position:relative;overflow:hidden;margin-bottom:12px;color:white}
+.map-box::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(22,119,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(22,119,255,.12) 1px,transparent 1px);background-size:30px 30px;opacity:.5}
+.map-taxi{position:absolute;width:28px;height:28px;background:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 0 0 3px rgba(250,173,20,.3);animation:driveCar 6s infinite linear}
+@keyframes driveCar{0%{left:10%;top:30%}25%{left:70%;top:25%}50%{left:80%;top:60%}75%{left:25%;top:65%}100%{left:10%;top:30%}}
+.map-user{position:absolute;width:40px;height:40px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 6px rgba(22,119,255,.3),0 0 0 12px rgba(22,119,255,.15);z-index:2}
+.map-label{position:absolute;bottom:12px;left:12px;font-size:11px;color:rgba(255,255,255,.6);font-weight:600;z-index:3}
+.addr-input{background:white;border-radius:12px;padding:12px 14px;margin-bottom:8px;border:1.5px solid var(--border);display:flex;align-items:center;gap:10px}
+.addr-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.addr-dot.from{background:var(--green)}.addr-dot.to{background:var(--red)}
+.addr-input input{flex:1;border:none;background:none;outline:none;font-size:14px;font-weight:500}
+.taxi-types{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.taxi-type{background:white;border:1.5px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer}
+.taxi-type.sel{border-color:var(--primary);background:var(--primary-50)}
+.tt-emoji{font-size:24px;margin-bottom:4px}
+.tt-name{font-size:12px;font-weight:700}
+.tt-price{font-size:14px;font-weight:800;color:var(--primary);font-family:var(--mono);margin-top:2px}
+.tt-time{font-size:10px;color:var(--text3);margin-top:2px}
+
+/* FILTERS / PRODUCTS */
+.filter-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px}
+.filter-tabs::-webkit-scrollbar{display:none}
+.filter-tab{padding:7px 14px;background:white;border:1.5px solid var(--border);border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;color:var(--text2)}
+.filter-tab.active{background:var(--primary);color:white;border-color:var(--primary)}
+.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.product{background:white;border-radius:var(--r);padding:12px;cursor:pointer;position:relative;box-shadow:var(--sh-xs)}
+.product-img{width:100%;aspect-ratio:1.2;background:var(--bg);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:38px;margin-bottom:8px}
+.product-name{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:3px}
+.product-desc{font-size:11px;color:var(--text3);margin-bottom:6px;height:14px;overflow:hidden}
+.product-price{font-size:15px;font-weight:800;color:var(--primary);font-family:var(--mono)}
+.product-plus{position:absolute;bottom:10px;right:10px;width:30px;height:30px;background:var(--primary);color:white;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+
+.cart-bar{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);width:calc(100% - 16px);max-width:504px;background:linear-gradient(135deg,var(--primary),var(--primary-d));color:white;padding:10px 14px;display:none;align-items:center;justify-content:space-between;gap:12px;box-shadow:var(--sh-md);z-index:90;border-radius:var(--r);margin-bottom:6px}
+.cart-bar.show{display:flex}
+.cart-left .cl-c{font-size:11px;opacity:.85;font-weight:600}
+.cart-left .cl-s{font-size:17px;font-weight:800;font-family:var(--mono);margin-top:1px}
+.cart-go{background:var(--green);color:white;border-radius:20px;padding:9px 16px;font-weight:800;font-size:13px;cursor:pointer}
+
+/* CAFE */
+.menu-hero{background:linear-gradient(135deg,var(--brown),var(--brown-d));border-radius:var(--r);padding:16px 14px;color:white;margin-bottom:14px;position:relative;overflow:hidden}
+.menu-hero::before{content:'';position:absolute;top:-50px;right:-30px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 70%)}
+.mh-top{display:flex;align-items:center;gap:12px;margin-bottom:12px;position:relative;z-index:1}
+.mh-logo{width:48px;height:48px;background:white;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px}
+.mh-info{flex:1}
+.mh-name{font-size:17px;font-weight:800}
+.mh-loc{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px}
+.mh-table{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.mht-lbl{font-size:10px;color:rgba(255,255,255,.7);text-transform:uppercase;font-weight:700}
+.mht-val{font-size:15px;font-weight:800;font-family:var(--mono)}
+.mht-badge{background:var(--green);color:white;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:800;display:flex;align-items:center;gap:4px}
+.mht-badge svg{width:10px;height:10px}
+.menu-cat{font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px}
+.dish-card{background:white;border-radius:var(--r);padding:12px;margin-bottom:8px;border:1.5px solid var(--border-l);cursor:pointer;display:flex;align-items:center;gap:10px}
+.dish-card.in-cart{border-color:var(--primary);background:var(--primary-50)}
+.dc-emoji{width:48px;height:48px;background:var(--bg);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.dc-info{flex:1;min-width:0}
+.dc-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.dc-descr{font-size:11px;color:var(--text3);margin-bottom:4px}
+.dc-price{font-size:14px;font-weight:800;font-family:var(--mono);color:var(--primary)}
+.dc-qty{display:flex;align-items:center;gap:6px;background:var(--primary);border-radius:18px;padding:3px;color:white}
+.dc-qty button{width:24px;height:24px;border-radius:50%;background:white;color:var(--primary);font-weight:800;font-size:14px}
+.dc-qty .qty{font-weight:800;min-width:18px;text-align:center;font-family:var(--mono);font-size:13px}
+.dc-add{width:32px;height:32px;border-radius:10px;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800}
+
+/* CRM */
+.kanban{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+.kanban::-webkit-scrollbar{height:4px}
+.k-col{min-width:230px;max-width:230px;background:white;border-radius:var(--r);padding:14px;flex-shrink:0;box-shadow:var(--sh-xs)}
+.k-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.k-title{font-size:12px;font-weight:700;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.k-title .dot{width:8px;height:8px;border-radius:50%}
+.k-count{background:var(--bg);color:var(--text3);border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700}
+.cc{background:var(--bg);border-radius:10px;padding:12px;margin-bottom:8px;cursor:pointer;border-left:3px solid}
+.cc-name{font-size:14px;font-weight:700;margin-bottom:4px}
+.cc-phone{font-size:11px;color:var(--text3);margin-bottom:3px}
+.cc-sum{font-size:13px;color:var(--primary);font-weight:700;font-family:var(--mono);margin-top:4px}
+.cc-btn{display:flex;gap:4px;margin-top:6px}
+.search-wrap2{position:relative;margin-bottom:12px}
+.search-wrap2 input{width:100%;padding:10px 14px 10px 40px;background:white;border:1.5px solid var(--border);border-radius:22px;font-size:14px;outline:none}
+.search-wrap2 svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
+.add-card{background:white;border-radius:var(--r);padding:14px;margin-bottom:12px;box-shadow:var(--sh-xs);border-left:3px solid var(--primary)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* TRANSPORT */
+.route-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.route-chip{padding:7px 14px;background:white;border:1.5px solid var(--border);border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--mono)}
+.route-chip.active{background:var(--primary);color:white;border-color:var(--primary)}
+.stop-list{background:white;border-radius:var(--r);padding:14px 16px}
+.stop{display:flex;align-items:center;gap:12px;padding:10px 0;position:relative}
+.stop::before{content:'';position:absolute;left:7px;top:-4px;bottom:-4px;width:2px;background:var(--border)}
+.stop:first-child::before{top:50%}.stop:last-child::before{bottom:50%}
+.stop-dot{width:16px;height:16px;border-radius:50%;background:white;border:3px solid var(--border);flex-shrink:0;z-index:1}
+.stop.bus .stop-dot{border-color:var(--green);background:var(--green);box-shadow:0 0 0 4px rgba(0,185,107,.2);animation:busPulse 1.5s infinite}
+@keyframes busPulse{0%,100%{box-shadow:0 0 0 4px rgba(0,185,107,.2)}50%{box-shadow:0 0 0 8px rgba(0,185,107,.4)}}
+.stop-name{flex:1;font-size:14px;font-weight:600}
+.stop-time{font-size:12px;color:var(--text3);font-family:var(--mono)}
+.stop.bus .stop-name{color:var(--green);font-weight:800}
+
+/* PLACE CARD */
+.place-card{background:white;border-radius:var(--r);padding:12px;margin-bottom:10px;display:flex;gap:12px;cursor:pointer;box-shadow:var(--sh-xs)}
+.place-img{width:80px;height:80px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0}
+.place-info{flex:1;min-width:0}
+.place-name{font-size:15px;font-weight:800;margin-bottom:3px}
+.place-loc{font-size:12px;color:var(--text3);margin-bottom:6px}
+.place-meta{display:flex;align-items:center;gap:6px}
+.place-rate{display:inline-flex;align-items:center;gap:3px;background:var(--yellow-l);color:#B45309;border-radius:6px;padding:2px 6px;font-size:11px;font-weight:700}
+.place-price{font-size:13px;color:var(--primary);font-weight:700;font-family:var(--mono)}
+.place-dist{font-size:11px;color:var(--text3);margin-top:4px}
+
+/* SUCCESS */
+.success-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:500;align-items:center;justify-content:center;padding:20px}
+.success-overlay.open{display:flex;animation:fadeIn .35s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.success-card{width:100%;max-width:400px;background:white;border-radius:20px;overflow:hidden;box-shadow:var(--sh-lg);animation:popIn .45s cubic-bezier(.32,1.4,.64,1)}
+@keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.success-hero{background:linear-gradient(135deg,var(--green),var(--green-d));padding:32px 20px 24px;text-align:center;color:white}
+.success-check{width:72px;height:72px;border-radius:50%;background:white;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;animation:checkPop .6s cubic-bezier(.32,1.4,.64,1)}
+@keyframes checkPop{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.success-check svg{width:40px;height:40px;color:var(--green);stroke-width:3.5}
+.success-title{font-size:20px;font-weight:800;margin-bottom:4px}
+.success-sub{font-size:13px;opacity:.9}
+.success-amount{font-size:32px;font-weight:800;font-family:var(--mono);letter-spacing:-1px;margin-top:12px}
+.receipt{padding:18px 20px}
+.receipt-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--border)}
+.receipt-row:last-child{border-bottom:none}
+.receipt-label{font-size:13px;color:var(--text3)}
+.receipt-value{font-size:13px;font-weight:700;text-align:right;max-width:60%}
+.receipt-items{margin:8px 0;padding:8px 0;border-top:1px dashed var(--border);border-bottom:1px dashed var(--border)}
+.receipt-item{display:flex;justify-content:space-between;padding:3px 0;font-size:12px;color:var(--text2)}
+.success-actions{padding:14px 20px 20px;display:flex;gap:10px}
+
+/* KITCHEN */
+#kitchen-screen{display:none;min-height:100vh;background:#0F172A;color:white;padding:16px}
+#kitchen-screen.active{display:block}
+.kh-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.kh-logo-wrap{display:flex;align-items:center;gap:10px}
+.kh-logo-ico{width:42px;height:42px;background:linear-gradient(135deg,var(--brown),var(--brown-d));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.kh-title{font-size:18px;font-weight:800}
+.kh-sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:1px}
+.kh-stats-row{display:flex;gap:8px;flex-wrap:wrap}
+.kh-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 12px}
+.kh-stat-n{font-size:16px;font-weight:800;font-family:var(--mono)}
+.kh-stat-l{font-size:9px;color:rgba(255,255,255,.6);text-transform:uppercase;margin-top:1px}
+.kh-back-btn{background:var(--primary);color:white;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px}
+.kh-back-btn svg{width:14px;height:14px}
+.kitchen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.order-card{background:#1E293B;border:2px solid #334155;border-radius:14px;padding:14px;animation:slideDown .5s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+.order-card.new{border-color:var(--green)}
+.order-card.ready{opacity:.5}
+.order-top{display:flex;justify-content:space-between;margin-bottom:12px}
+.table-badge{background:var(--primary);color:white;border-radius:10px;padding:8px 12px;font-weight:800;font-size:16px;display:flex;align-items:center;gap:6px}
+.paid-badge{background:var(--green);color:white;border-radius:20px;padding:4px 9px;font-size:10px;font-weight:800;display:flex;align-items:center;gap:4px}
+.paid-badge svg,.table-badge svg{width:14px;height:14px}
+.order-items{list-style:none}
+.order-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.1);font-size:13px;color:white}
+.order-item:last-child{border:none}
+.order-meta{display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.1)}
+.om-time{font-size:11px;color:rgba(255,255,255,.55)}
+.om-total{font-size:15px;font-weight:800;font-family:var(--mono);color:var(--green)}
+.order-btn{margin-top:10px;width:100%;background:var(--green);color:white;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer}
+.empty-kitchen{text-align:center;padding:60px 20px;color:rgba(255,255,255,.4);grid-column:1/-1}
+.empty-block{text-align:center;padding:30px 16px;color:var(--muted)}
+.empty-block-ico{font-size:40px;margin-bottom:10px;opacity:.4}
+
+.info-note{background:var(--primary-l);border:1px solid rgba(22,119,255,.2);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--text2);margin-bottom:12px;display:flex;gap:8px;align-items:flex-start}
+.info-note svg{width:16px;height:16px;color:var(--primary);flex-shrink:0;margin-top:1px}
+</style>
+</head>
+<body>
+
+<!-- KITCHEN -->
+<div id="kitchen-screen">
+  <div class="kh-top">
+    <div class="kh-logo-wrap">
+      <div class="kh-logo-ico">☕</div>
+      <div><div class="kh-title">Кухня · Sierra Coffee</div><div class="kh-sub">🇰🇬 Бишкек · Live Display</div></div>
+    </div>
+    <div class="kh-stats-row">
+      <div class="kh-stat"><div class="kh-stat-n" id="k-pending">0</div><div class="kh-stat-l">В работе</div></div>
+      <div class="kh-stat"><div class="kh-stat-n" id="k-done-today">0</div><div class="kh-stat-l">Готово</div></div>
+      <div class="kh-stat"><div class="kh-stat-n" id="k-revenue">0 с.</div><div class="kh-stat-l">Выручка</div></div>
+      <button class="kh-back-btn" onclick="closeKitchen()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>Назад</button>
+    </div>
+  </div>
+  <div class="kitchen-grid" id="kitchen-grid"></div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="content">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="hero">
+        <div class="hero-top-row">
+          <div class="city-pick">Бишкек <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div class="search-wrap">
+            <input type="text" placeholder="Поиск услуг, товаров...">
+            <div class="search-scan" onclick="toast('📷 Сканирование QR')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              Поиск
+            </div>
+          </div>
+          <div class="ai-btn" onclick="toast('🤖 Салам-ИИ: здравствуйте!')">AI</div>
+        </div>
+
+        <div class="main-actions">
+          <div class="ma-btn" onclick="toast('📷 Сканер QR — откройте камеру')">
+            <div class="ma-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/></svg></div>
+            <div class="ma-lbl">Сканер</div>
+          </div>
+          <div class="ma-btn" onclick="showPage('payreceive')">
+            <div class="ma-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 7v10M8 11h8"/></svg></div>
+            <div class="ma-lbl">Платежи</div>
+          </div>
+          <div class="ma-btn" onclick="openApp('transport')">
+            <div class="ma-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 16l4-10 4 10"/></svg></div>
+            <div class="ma-lbl">Транспорт</div>
+          </div>
+          <div class="ma-btn" onclick="showPage('pocket')">
+            <div class="ma-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <div class="ma-lbl">Кошелёк</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat-section">
+        <div class="cat-tabs">
+          <div class="cat-tab active" onclick="setTab(this,'regular')">Обычное</div>
+          <div class="cat-tab" onclick="setTab(this,'travel')">Путешествия</div>
+          <div class="cat-tab" onclick="setTab(this,'food')">Еда</div>
+          <div class="cat-tab" onclick="setTab(this,'city')">Город</div>
+          <div class="cat-tab" onclick="setTab(this,'gov')">Госуслуги</div>
+        </div>
+
+        <div class="services-grid" id="tab-regular">
+          <button class="svc-btn" onclick="openApp('cafe')"><div class="svc-ico" style="background:#FFE8D6"><svg viewBox="0 0 24 24" fill="none" stroke="#8B4513" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/></svg></div><div class="svc-lbl">Кафе NFC</div></button>
+          <button class="svc-btn" onclick="openApp('taxi')"><div class="svc-ico" style="background:#FFF7D6"><svg viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M5 17v-6l2-6h10l2 6v6"/><circle cx="8" cy="14" r="1"/><circle cx="16" cy="14" r="1"/></svg></div><div class="svc-lbl">Такси</div></button>
+          <button class="svc-btn" onclick="openApp('delivery')"><div class="svc-ico" style="background:#D6F3FF"><svg viewBox="0 0 24 24" fill="none" stroke="#1677FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div class="svc-lbl">Доставка</div></button>
+          <button class="svc-btn" onclick="openApp('market')"><div class="svc-ico" style="background:#FFE6EE"><svg viewBox="0 0 24 24" fill="none" stroke="#E8316F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div><div class="svc-lbl">Маркет</div></button>
+          <button class="svc-btn" onclick="openApp('crm')"><div class="svc-ico" style="background:#E8E3FF"><svg viewBox="0 0 24 24" fill="none" stroke="#5842BB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="svc-lbl">Мой CRM</div></button>
+          <button class="svc-btn" onclick="openApp('mobile')"><div class="svc-ico" style="background:#FFF4CC"><svg viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/></svg></div><div class="svc-lbl">Связь</div></button>
+          <button class="svc-btn" onclick="openApp('utilities')"><div class="svc-ico" style="background:#D6FFE8"><svg viewBox="0 0 24 24" fill="none" stroke="#00B96B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M15 14c.2-1 .7-1.7 1.4-2.5A4.6 4.6 0 0 0 18 8a6 6 0 0 0-12 0c0 1 .2 2.2 1.5 3.5A4.6 4.6 0 0 1 8.9 14"/></svg></div><div class="svc-lbl">ЖКХ</div></button>
+          <button class="svc-btn" onclick="toast('➕ Больше сервисов скоро!')"><div class="svc-ico" style="background:#EAEDF4"><svg viewBox="0 0 24 24" fill="#8C8C8C"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></div><div class="svc-lbl">Ещё</div></button>
+        </div>
+
+        <div class="services-grid" id="tab-travel" style="display:none">
+          <button class="svc-btn" onclick="openApp('taxi')"><div class="svc-ico" style="background:#FFF7D6"><svg viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M5 17v-6l2-6h10l2 6v6"/><circle cx="8" cy="14" r="1"/><circle cx="16" cy="14" r="1"/></svg></div><div class="svc-lbl">Такси</div></button>
+          <button class="svc-btn" onclick="openApp('transport')"><div class="svc-ico" style="background:#D6F3FF"><svg viewBox="0 0 24 24" fill="none" stroke="#1677FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><circle cx="8" cy="16" r="1.5"/><circle cx="16" cy="16" r="1.5"/></svg></div><div class="svc-lbl">Автобус</div></button>
+          <button class="svc-btn" onclick="openApp('tickets')"><div class="svc-ico" style="background:#D6F3FF"><svg viewBox="0 0 24 24" fill="none" stroke="#1677FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2v4M7 2v4M4 10h16M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div><div class="svc-lbl">Билеты</div></button>
+          <button class="svc-btn" onclick="openApp('hotels')"><div class="svc-ico" style="background:#F9F0FF"><svg viewBox="0 0 24 24" fill="none" stroke="#722ED1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 7v14M21 7v14M5 21V7h14v14M8 11h8M8 15h8"/></svg></div><div class="svc-lbl">Отели</div></button>
+          <button class="svc-btn" onclick="openApp('attractions')"><div class="svc-ico" style="background:#FFE8D6"><svg viewBox="0 0 24 24" fill="none" stroke="#FA8C16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="svc-lbl">Места</div></button>
+          <button class="svc-btn" onclick="toast('🌐 Перевод — скоро!')"><div class="svc-ico" style="background:#D6F3FF"><svg viewBox="0 0 24 24" fill="none" stroke="#1677FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div class="svc-lbl">Перевод</div></button>
+          <button class="svc-btn" onclick="toast('📲 eSIM — скоро!')"><div class="svc-ico" style="background:#FFE6EE"><svg viewBox="0 0 24 24" fill="none" stroke="#E8316F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/></svg></div><div class="svc-lbl">eSIM</div></button>
+          <button class="svc-btn" onclick="toast('➕ Больше сервисов скоро!')"><div class="svc-ico" style="background:#EAEDF4"><svg viewBox="0 0 24 24" fill="#8C8C8C"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></div><div class="svc-lbl">Ещё</div></button>
+        </div>
+
+        <div class="services-grid" id="tab-food" style="display:none">
+          <button class="svc-btn" onclick="openApp('cafe')"><div class="svc-ico" style="background:#FFE8D6"><svg viewBox="0 0 24 24" fill="none" stroke="#8B4513" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/></svg></div><div class="svc-lbl">Кафе NFC</div></button>
+          <button class="svc-btn" onclick="openApp('delivery')"><div class="svc-ico" style="background:#D6F3FF"><svg viewBox="0 0 24 24" fill="none" stroke="#1677FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div class="svc-lbl">Доставка</div></button>
+          <button class="svc-btn" onclick="openApp('market')"><div class="svc-ico" style="background:#FFE6EE"><svg viewBox="0 0 24 24" fill="none" stroke="#E8316F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div><div class="svc-lbl">Маркет</div></button>
+          <button class="svc-btn" onclick="toast('🍽️ Рестораны — скоро!')"><div class="svc-ico" style="background:#FFE8D6"><svg viewBox="0 0 24 24" fill="none" stroke="#FA8C16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M14 14h7v7h-7z"/><path d="M3 14h7v7H3z"/></svg></div><div class="svc-lbl">Рестораны</div></button>
+        </div>
+
+        <div class="services-grid" id="tab-city" style="display:none">
+          <button class="svc-btn" onclick="openApp('transport')"><div class="svc-ico" style="background:#D6F3FF"><svg viewBox="0 0 24 24" fill="none" stroke="#1677FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/></svg></div><div class="svc-lbl">Транспорт</div></button>
+          <button class="svc-btn" onclick="openApp('utilities')"><div class="svc-ico" style="background:#D6FFE8"><svg viewBox="0 0 24 24" fill="none" stroke="#00B96B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M15 14c.2-1 .7-1.7 1.4-2.5A4.6 4.6 0 0 0 18 8a6 6 0 0 0-12 0c0 1 .2 2.2 1.5 3.5A4.6 4.6 0 0 1 8.9 14"/></svg></div><div class="svc-lbl">ЖКХ</div></button>
+          <button class="svc-btn" onclick="openApp('attractions')"><div class="svc-ico" style="background:#FFE8D6"><svg viewBox="0 0 24 24" fill="none" stroke="#FA8C16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="svc-lbl">Места</div></button>
+          <button class="svc-btn" onclick="openApp('mobile')"><div class="svc-ico" style="background:#FFF4CC"><svg viewBox="0 0 24 24" fill="none" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/></svg></div><div class="svc-lbl">Связь</div></button>
+        </div>
+
+        <div class="services-grid" id="tab-gov" style="display:none">
+          <button class="svc-btn" onclick="openApp('tunduk')"><div class="svc-ico" style="background:#FFE6E6"><svg viewBox="0 0 24 24" fill="none" stroke="#D32027" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg></div><div class="svc-lbl">Түндүк</div></button>
+          <button class="svc-btn" onclick="openApp('utilities')"><div class="svc-ico" style="background:#D6FFE8"><svg viewBox="0 0 24 24" fill="none" stroke="#00B96B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M15 14c.2-1 .7-1.7 1.4-2.5"/></svg></div><div class="svc-lbl">ЖКХ</div></button>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="notif-card" onclick="toast('🔔 Все уведомления')">
+        <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <div class="notif-txt">Все уведомления</div>
+        <div class="notif-arr">›</div>
+      </div>
+
+      <!-- Balance -->
+      <div class="bal-card" onclick="showPage('pocket')">
+        <div class="bal-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <div class="bal-info">
+          <div class="bal-t">Мой кошелёк</div>
+          <div class="bal-v">Пополнить, перевести, получить</div>
+        </div>
+        <div class="bal-n" id="h-bal-small">25 000 с.</div>
+      </div>
+
+      <!-- Special offer -->
+      <div class="section-title-row"><div class="stitle-big">Специальные предложения</div><div class="stitle-more">Ещё ›</div></div>
+      <div class="offer-card">
+        <div class="offer-badge">−7%</div>
+        <div class="offer-info"><div class="offer-title">Скидка на отели</div><div class="offer-sub">До 500 сом · Karagat Resort</div></div>
+        <div class="claim-btn" onclick="openApp('hotels')">Взять</div>
+      </div>
+
+      <!-- Explore KG -->
+      <div class="section-title-row"><div class="stitle-big">Исследуй Кыргызстан</div><div class="stitle-more" onclick="openApp('attractions')">Ещё ›</div></div>
+      <div class="explore-row">
+        <div class="explore-card" onclick="openApp('attractions')" style="background:linear-gradient(135deg,#FF8A65,#FF5722)"><div class="ec-emoji">🌊</div><div>Иссык-Куль</div></div>
+        <div class="explore-card" onclick="openApp('attractions')" style="background:linear-gradient(135deg,#1A237E,#311B92)"><div class="ec-emoji">⛰️</div><div>Ала-Арча</div></div>
+      </div>
+
+      <div style="padding:20px 16px;background:white;border-radius:var(--r);margin:10px">
+        <div class="stitle-big" style="margin-bottom:12px">Последние операции</div>
+        <div id="h-tx"></div>
+      </div>
+    </div>
+
+    <!-- PAY/RECEIVE -->
+    <div class="page" id="page-payreceive">
+      <div class="page-header" style="background:linear-gradient(180deg,var(--hero-top),var(--hero-bot));padding-bottom:220px">
+        <button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <div class="page-title">Платежи / Получить</div>
+      </div>
+      <div style="margin:-200px 14px 0;position:relative">
+        <div class="card" style="padding:20px 16px 24px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
+            <div style="font-weight:800;font-size:16px;flex:1">Оплата продавцу</div>
+            <div style="font-size:13px;color:var(--text3)">Инструкция</div>
+          </div>
+          <div style="text-align:center;padding:24px 10px 10px">
+            <div style="width:72px;height:72px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:var(--primary-l);border-radius:16px"><svg viewBox="0 0 24 24" fill="none" stroke="#1677FF" stroke-width="2" style="width:48px;height:48px" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            <div style="font-size:18px;font-weight:800;margin-bottom:6px">Код оплаты активен</div>
+            <div style="font-size:14px;color:var(--text3);margin-bottom:20px">Покажите ваш QR-код продавцу</div>
+            <div style="display:inline-block;padding:12px;background:white;border:2px solid var(--text);border-radius:14px;margin-bottom:10px"><canvas id="qr-c" width="160" height="160"></canvas></div>
+          </div>
+          <button class="btn" onclick="toast('✅ Код обновлён')">Обновить код</button>
+          <div style="text-align:center;color:var(--primary);font-weight:700;margin-top:14px;cursor:pointer" onclick="toast('💳 Банковская карта')">+ Добавить карту ›</div>
+        </div>
+
+        <div style="background:rgba(22,119,255,.3);border-radius:var(--r);padding:2px;margin-top:10px">
+          <div style="background:rgba(255,255,255,.9);border-radius:12px;overflow:hidden">
+            <div style="display:flex;align-items:center;padding:14px;cursor:pointer;border-bottom:1px solid var(--border-l)" onclick="toast('💰 Получить деньги')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;margin-right:12px;color:var(--primary)" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+              <div style="flex:1;font-size:15px;font-weight:700">Получить</div>
+              <div style="color:var(--text3);font-size:18px">›</div>
+            </div>
+            <div style="display:flex;align-items:center;padding:14px;cursor:pointer" onclick="transferFn()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;margin-right:12px;color:var(--primary)" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+              <div style="flex:1;font-size:15px;font-weight:700">Перевод</div>
+              <div style="color:var(--text3);font-size:18px">›</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POCKET -->
+    <div class="page" id="page-pocket">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">Кошелёк</div></div>
+      <div class="page-wrap">
+        <div class="wp-hero"><div class="wp-lbl">Баланс</div><div class="wp-amt" id="w-bal">25 000 с.</div><div class="wp-sub">САЛАМ PAY · Кыргызский сом</div></div>
+        <div class="quick-actions">
+          <div class="qa-btn" onclick="topupFn()"><div class="qa-ico" style="background:var(--green-l);color:var(--green)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></div><div class="qa-lbl">Пополнить</div></div>
+          <div class="qa-btn" onclick="transferFn()"><div class="qa-ico" style="background:var(--primary-l);color:var(--primary)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div><div class="qa-lbl">Перевод</div></div>
+          <div class="qa-btn" onclick="showPage('payreceive')"><div class="qa-ico" style="background:var(--orange-l);color:var(--orange)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/></svg></div><div class="qa-lbl">QR</div></div>
+        </div>
+        <div class="card"><div style="font-size:16px;font-weight:800;margin-bottom:10px">История</div><div id="w-tx"></div></div>
+      </div>
+    </div>
+
+    <!-- MESSAGE -->
+    <div class="page" id="page-msg">
+      <div style="padding:44px 16px 12px">
+        <div style="font-size:20px;font-weight:800;text-align:center">Сообщения</div>
+      </div>
+      <div class="page-wrap">
+        <div class="card" style="padding:12px 14px">
+          <div style="background:var(--bg);border-radius:22px;padding:10px 14px;display:flex;align-items:center;gap:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--muted)" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Друзья, переводы..." style="flex:1;border:none;outline:none;background:none;font-size:14px"></div>
+        </div>
+        <div class="card" style="padding:0">
+          <div style="display:flex;align-items:center;gap:12px;padding:14px" onclick="toast('🔔 Уведомления')">
+            <div style="width:44px;height:44px;background:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="width:22px;height:22px" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+            <div style="flex:1"><div style="font-size:15px;font-weight:700;display:flex;justify-content:space-between;margin-bottom:3px"><span>Уведомления</span><span style="font-size:11px;color:var(--muted);font-weight:500">Сегодня</span></div><div style="font-size:13px;color:var(--text3)">САЛАМ PAY · Добро пожаловать!</div></div>
+          </div>
+        </div>
+        <div class="card" style="padding:0">
+          <div style="display:flex;align-items:center;gap:12px;padding:14px" onclick="toast('💬 Служба поддержки')">
+            <div style="width:44px;height:44px;background:var(--green);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px">💬</div>
+            <div style="flex:1"><div style="font-size:15px;font-weight:700;display:flex;justify-content:space-between;margin-bottom:3px"><span>Служба поддержки</span><span style="font-size:11px;color:var(--muted);font-weight:500">Вчера</span></div><div style="font-size:13px;color:var(--text3)">Чем можем помочь?</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCOUNT -->
+    <div class="page" id="page-account">
+      <div class="acc-hdr">
+        <div class="acc-gear" onclick="toast('⚙️ Настройки')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+        <div class="acc-user-row" onclick="showPage('my-account')">
+          <div class="acc-ava">О</div>
+          <div class="acc-user-info">
+            <div class="acc-name">Osmonali</div>
+            <div class="acc-tags"><span class="acc-tag">996-225***111</span><span class="acc-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Верифицирован</span></div>
+          </div>
+          <div class="acc-arr">›</div>
+        </div>
+      </div>
+
+      <div class="notif-card" style="background:white;margin:0 10px 10px" onclick="toast('📧 Добавьте email')">
+        <div style="width:8px;height:8px;background:var(--red);border-radius:50%"></div>
+        <div style="flex:1;font-size:14px">Добавьте email и задайте пароль</div>
+        <div style="color:var(--text3)">›</div>
+      </div>
+
+      <div class="acc-menu">
+        <button class="acc-line" onclick="toast('💎 Membership')">
+          <div class="acc-li-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#1677FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+          <div class="acc-li-title">Membership</div>
+          <div class="acc-li-arr">›</div>
+        </button>
+        <button class="acc-line" onclick="showPage('pocket')">
+          <div class="acc-li-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#FA8C16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="acc-li-title">Мои транзакции</div>
+          <div class="acc-li-arr">›</div>
+        </button>
+        <button class="acc-line" onclick="showPage('pocket')">
+          <div class="acc-li-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#1677FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12h6"/></svg></div>
+          <div class="acc-li-title">Баланс</div>
+          <div class="acc-li-val" id="acc-bal">25 000 с.</div>
+          <div class="acc-li-arr">›</div>
+        </button>
+        <button class="acc-line" onclick="toast('💳 Банковские карты')">
+          <div class="acc-li-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#FA8C16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+          <div class="acc-li-title">Банковские карты</div>
+          <div class="acc-li-arr">›</div>
+        </button>
+      </div>
+
+      <div class="acc-menu">
+        <button class="acc-line" onclick="toast('🎧 Служба поддержки')">
+          <div class="acc-li-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#1677FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/><path d="M3 12h4M17 12h4M12 3v4M12 17v4"/></svg></div>
+          <div class="acc-li-title">Центр помощи</div>
+          <div class="acc-li-arr">›</div>
+        </button>
+      </div>
+
+      <div class="acc-menu">
+        <button class="acc-line" onclick="showKitchen()">
+          <div class="acc-li-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#722ED1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8l4 4-4 4M3 12h18"/></svg></div>
+          <div class="acc-li-title">Экран кухни</div>
+          <div class="acc-li-arr">›</div>
+        </button>
+        <button class="acc-line" onclick="resetDemo()">
+          <div class="acc-li-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#FA8C16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></div>
+          <div class="acc-li-title" style="color:var(--orange)">Сбросить демо</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- MY ACCOUNT DETAIL -->
+    <div class="page" id="page-my-account">
+      <div class="acc-hdr" style="text-align:center">
+        <div class="ma-hdr-back" style="position:absolute;left:12px;top:48px;cursor:pointer" onclick="showPage('account')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
+        <div style="font-size:17px;font-weight:700;margin-top:4px">Мой аккаунт</div>
+        <div class="acc-gear" onclick="toast('☁️')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
+      </div>
+      <div class="acc-menu">
+        <button class="acc-line" onclick="toast('📸 Фото')"><div class="acc-li-title">Фото</div><div style="width:36px;height:36px;background:var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:10px;font-weight:600">Нет</div><div class="acc-li-arr">›</div></button>
+        <button class="acc-line" onclick="toast('✏️ Никнейм')"><div class="acc-li-title">Никнейм</div><div class="acc-li-val">Osmonali</div><div class="acc-li-arr">›</div></button>
+        <button class="acc-line" onclick="toast('🖼️ Аватар')"><div class="acc-li-title">Аватар</div><div class="acc-li-arr">›</div></button>
+        <button class="acc-line" onclick="toast('🏦 Alipay аккаунт')"><div class="acc-li-title">САЛАМ Аккаунт</div><div class="acc-li-val">996-225***111</div><div class="acc-li-arr">›</div></button>
+        <button class="acc-line" onclick="toast('🪪 Документы')"><div class="acc-li-title">Идентификация</div><div class="acc-li-arr">›</div></button>
+      </div>
+      <div class="acc-menu">
+        <button class="acc-line" onclick="toast('💳 QR визитка')"><div class="acc-li-title">Моя визитка</div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:var(--text3);margin-right:6px" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><div class="acc-li-arr">›</div></button>
+        <button class="acc-line" onclick="toast('🏠 Профиль')"><div class="acc-li-title">Домашняя страница</div><div class="acc-li-arr">›</div></button>
+      </div>
+      <div class="acc-menu">
+        <button class="acc-line" onclick="toast('👤 Мой профиль')"><div class="acc-li-title">Мой профиль</div><div class="acc-li-arr">›</div></button>
+        <button class="acc-line" onclick="toast('🏆 Коллекции')"><div class="acc-li-title">Мои коллекции</div><div class="acc-li-arr">›</div></button>
+      </div>
+    </div>
+
+    <!-- CAFE -->
+    <div class="page" id="page-cafe">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">Кафе NFC</div></div>
+      <div class="page-wrap">
+        <div class="menu-hero">
+          <div class="mh-top"><div class="mh-logo">☕</div><div class="mh-info"><div class="mh-name">Sierra Coffee</div><div class="mh-loc">📍 Бишкек · ТРЦ Asia Mall</div></div></div>
+          <div class="mh-table"><div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;background:rgba(255,255,255,.2);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px">🪑</div><div><div class="mht-lbl">Ваш стол</div><div class="mht-val" id="cafe-table">№5</div></div></div><div class="mht-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>NFC</div></div>
+        </div>
+        <div class="info-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><div>Заказ уйдёт на <b style="cursor:pointer;text-decoration:underline" onclick="showKitchen()">экран кухни</b></div></div>
+        <div id="cafe-menu-list"></div>
+      </div>
+    </div>
+
+    <!-- TAXI -->
+    <div class="page" id="page-taxi">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">Такси</div></div>
+      <div class="page-wrap">
+        <div class="map-box"><div class="map-label">📍 Бишкек</div><div class="map-taxi">🚕</div><div class="map-user">📍</div></div>
+        <div class="addr-input"><div class="addr-dot from"></div><input type="text" id="taxi-from" value="ул. Чуй 114, Бишкек"></div>
+        <div class="addr-input"><div class="addr-dot to"></div><input type="text" id="taxi-to" value="ТРЦ Asia Mall"></div>
+        <div class="taxi-types">
+          <div class="taxi-type sel" data-price="180" onclick="selectTaxi(this)"><div class="tt-emoji">🚗</div><div class="tt-name">Эконом</div><div class="tt-price">180 с.</div><div class="tt-time">3-5 мин</div></div>
+          <div class="taxi-type" data-price="280" onclick="selectTaxi(this)"><div class="tt-emoji">🚙</div><div class="tt-name">Комфорт</div><div class="tt-price">280 с.</div><div class="tt-time">5-7 мин</div></div>
+          <div class="taxi-type" data-price="450" onclick="selectTaxi(this)"><div class="tt-emoji">🚘</div><div class="tt-name">Бизнес</div><div class="tt-price">450 с.</div><div class="tt-time">7-10 мин</div></div>
+        </div>
+        <button class="btn green" onclick="bookTaxi()">Заказать такси · <span id="taxi-sum">180 с.</span></button>
+      </div>
+    </div>
+
+    <!-- DELIVERY -->
+    <div class="page" id="page-delivery">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">Доставка еды</div></div>
+      <div class="page-wrap">
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterDelivery('all',this)">Все</button>
+          <button class="filter-tab" onclick="filterDelivery('kg',this)">🇰🇬 Кыргызская</button>
+          <button class="filter-tab" onclick="filterDelivery('fast',this)">🍔 Фастфуд</button>
+          <button class="filter-tab" onclick="filterDelivery('cafe',this)">☕ Кофе</button>
+        </div>
+        <div class="product-grid" id="delivery-grid"></div>
+      </div>
+    </div>
+
+    <!-- MARKET -->
+    <div class="page" id="page-market">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">Маркет</div></div>
+      <div class="page-wrap">
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterMarket('all',this)">Все</button>
+          <button class="filter-tab" onclick="filterMarket('food',this)">🥘 Продукты</button>
+          <button class="filter-tab" onclick="filterMarket('drink',this)">🥤 Напитки</button>
+          <button class="filter-tab" onclick="filterMarket('sweet',this)">🍬 Сладости</button>
+        </div>
+        <div class="product-grid" id="market-grid"></div>
+      </div>
+    </div>
+
+    <!-- CRM -->
+    <div class="page" id="page-crm">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">CRM</div></div>
+      <div class="page-wrap">
+        <div class="add-card">
+          <div style="font-size:13px;font-weight:800;color:var(--primary);margin-bottom:10px">Новый клиент</div>
+          <div class="f2">
+            <div class="field" style="grid-column:1/-1"><label>Имя *</label><input type="text" id="c-name" placeholder="Айнура Бекова"></div>
+            <div class="field"><label>Телефон</label><input type="tel" id="c-phone" placeholder="+996..."></div>
+            <div class="field"><label>Город</label><select id="c-city"><option value="">—</option><option>Бишкек</option><option>Ош</option><option>Каракол</option></select></div>
+            <div class="field"><label>Стадия</label><select id="c-stage"><option value="new">🔵 Новый</option><option value="contact">🟡 Контакт</option><option value="deal">🟠 Сделка</option><option value="done">🟢 Закрыт</option></select></div>
+            <div class="field"><label>Сумма</label><input type="number" id="c-sum" placeholder="5000"></div>
+          </div>
+          <button class="btn sm" style="width:100%" onclick="addClient()">+ Добавить</button>
+        </div>
+        <div class="search-wrap2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="search" id="crm-q" placeholder="Поиск..." oninput="debounceCRM()"></div>
+        <div class="kanban">
+          <div class="k-col"><div class="k-hd"><div class="k-title"><span class="dot" style="background:#38BDF8"></span>Новый</div><span class="k-count" id="kc-new">0</span></div><div id="kk-new"></div></div>
+          <div class="k-col"><div class="k-hd"><div class="k-title"><span class="dot" style="background:#F59E0B"></span>Контакт</div><span class="k-count" id="kc-contact">0</span></div><div id="kk-contact"></div></div>
+          <div class="k-col"><div class="k-hd"><div class="k-title"><span class="dot" style="background:#F97316"></span>Сделка</div><span class="k-count" id="kc-deal">0</span></div><div id="kk-deal"></div></div>
+          <div class="k-col"><div class="k-hd"><div class="k-title"><span class="dot" style="background:#00C48C"></span>Закрыт</div><span class="k-count" id="kc-done">0</span></div><div id="kk-done"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSPORT -->
+    <div class="page" id="page-transport">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">Транспорт Бишкека</div></div>
+      <div class="page-wrap">
+        <div class="info-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div>Зелёная пульсация — где сейчас автобус</div></div>
+        <div class="route-chips" id="route-chips"></div>
+        <div class="stop-list" id="stop-list"></div>
+      </div>
+    </div>
+
+    <!-- ATTRACTIONS -->
+    <div class="page" id="page-attractions">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">Достопримечательности</div></div>
+      <div class="page-wrap"><div id="attractions-list"></div></div>
+    </div>
+
+    <!-- HOTELS -->
+    <div class="page" id="page-hotels">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">Отели</div></div>
+      <div class="page-wrap"><div id="hotels-list"></div></div>
+    </div>
+
+    <!-- UTILITIES -->
+    <div class="page" id="page-utilities">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">ЖКХ</div></div>
+      <div class="page-wrap"><div id="utilities-list"></div></div>
+    </div>
+
+    <!-- TUNDUK -->
+    <div class="page" id="page-tunduk">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">Түндүк</div></div>
+      <div class="page-wrap"><div id="tunduk-list"></div></div>
+    </div>
+
+    <!-- MOBILE -->
+    <div class="page" id="page-mobile">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">Мобильная связь</div></div>
+      <div class="page-wrap">
+        <div class="card">
+          <div class="field"><label>Оператор</label><select id="mob-op"><option>Beeline</option><option>MegaCom</option><option>О!</option></select></div>
+          <div class="field"><label>Номер телефона</label><input type="tel" id="mob-num" value="+996 700 111 222"></div>
+          <div class="field"><label>Сумма</label><input type="number" id="mob-sum" value="500"></div>
+          <div style="display:flex;gap:6px;margin-bottom:12px"><button class="btn sm ghost" onclick="setMobSum(100)">100 с.</button><button class="btn sm ghost" onclick="setMobSum(200)">200 с.</button><button class="btn sm ghost" onclick="setMobSum(500)">500 с.</button><button class="btn sm ghost" onclick="setMobSum(1000)">1 000 с.</button></div>
+          <button class="btn green" onclick="payMobile()">Пополнить</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TICKETS -->
+    <div class="page" id="page-tickets">
+      <div class="page-header"><button class="back-btn" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><div class="page-title">Билеты</div></div>
+      <div class="page-wrap"><div id="tickets-list"></div></div>
+    </div>
+
+  </div>
+
+  <div class="cart-bar" id="cart-bar">
+    <div class="cart-left"><div class="cl-c" id="cl-c">0 позиций</div><div class="cl-s" id="cl-s">0 с.</div></div>
+    <button class="cart-go" onclick="checkoutCart()" id="cart-btn">Оплатить →</button>
+  </div>
+
+  <nav class="bnav">
+    <button class="nav-item active" data-page="home" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="nl">Главная</span></button>
+    <button class="nav-item" data-page="video" onclick="toast('📹 Видео — скоро!')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><polygon points="10 9 15 12 10 15" fill="currentColor"/></svg><span class="nl">Видео</span></button>
+    <button class="nav-item" data-page="msg" onclick="showPage('msg')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nl">Сообщения</span></button>
+    <button class="nav-item" data-page="account" onclick="showPage('account')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="nl">Аккаунт</span></button>
+  </nav>
+</div>
+
+<!-- SUCCESS -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-card">
+    <div class="success-hero">
+      <div class="success-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="success-title" id="success-title">Оплачено!</div>
+      <div class="success-sub" id="success-sub">Операция прошла успешно</div>
+      <div class="success-amount" id="success-amount">0 с.</div>
+    </div>
+    <div class="receipt" id="success-receipt"></div>
+    <div class="success-actions"><button class="btn" onclick="closeSuccess()">Готово</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  САЛАМ PAY — Alipay Style v9.0
+// ═══════════════════════════════════════════════════════════════
+
+const DEFAULT = {
+  balance: 25000,
+  txs: [
+    { id:1, icon:'💰', name:'Пополнение', desc:'Через MBANK', amount:20000, incoming:true, date:new Date(Date.now()-86400000).toISOString() },
+    { id:2, icon:'☕', name:'Sierra Coffee', desc:'Капучино · Стол 3', amount:180, incoming:false, date:new Date(Date.now()-3600000).toISOString() },
+  ],
+  nextTxId: 3,
+  orders: [],
+  nextOrderId: 1,
+  clients: [
+    {id:1, name:'Айнура Бекова', phone:'+996 700 401 111', stage:'new', city:'Бишкек', sum:25000, created:'2025-04-10'},
+    {id:2, name:'Марат Усупов', phone:'+996 555 402 222', stage:'contact', city:'Ош', sum:18500, created:'2025-04-12'},
+    {id:3, name:'Жылдыз Асанова', phone:'+996 700 403 333', stage:'deal', city:'Бишкек', sum:85000, created:'2025-04-13'},
+    {id:4, name:'Бакыт Эргешов', phone:'+996 700 404 444', stage:'done', city:'Каракол', sum:42000, created:'2025-04-14'},
+    {id:5, name:'Нурбек Токтосунов', phone:'+996 700 405 555', stage:'new', city:'Джалал-Абад', sum:12000, created:'2025-04-15'},
+    {id:6, name:'Алтынай Жумалиева', phone:'+996 555 406 666', stage:'deal', city:'Бишкек', sum:150000, created:'2025-04-16'},
+    {id:7, name:'Эрлан Султанов', phone:'+996 700 407 777', stage:'contact', city:'Ош', sum:32000, created:'2025-04-17'},
+    {id:8, name:'Чолпон Бейшеналиева', phone:'+996 700 408 888', stage:'done', city:'Бишкек', sum:68000, created:'2025-04-18'},
+  ],
+  nextClientId: 9,
+};
+
+const CAFE_MENU = [
+  {id:1, emoji:'🍜', name:'Лагман', descr:'Гүйрү', price:280, cat:'hot'},
+  {id:2, emoji:'🥟', name:'Манты', descr:'6 шт', price:240, cat:'hot'},
+  {id:3, emoji:'🍖', name:'Бешбармак', descr:'Классический', price:520, cat:'hot'},
+  {id:4, emoji:'🥐', name:'Боорсоки', descr:'5 шт', price:80, cat:'bake'},
+  {id:5, emoji:'🍵', name:'Чай зелёный', descr:'Чайник', price:80, cat:'tea'},
+  {id:6, emoji:'☕', name:'Капучино', descr:'350 мл', price:180, cat:'tea'},
+  {id:7, emoji:'🥤', name:'Шоро Максым', descr:'0.5 л', price:50, cat:'tea'},
+];
+const DELIVERY = [
+  {id:1, emoji:'🍔', name:'Бургер Кинг', desc:'Whopper Meal', price:390, cat:'fast'},
+  {id:2, emoji:'🍕', name:'Pizza Chef', desc:'Пепперони 30 см', price:550, cat:'fast'},
+  {id:3, emoji:'🍖', name:'Бешбармак Хан', desc:'Классика', price:680, cat:'kg'},
+  {id:4, emoji:'🥟', name:'Манты Фаиза', desc:'6 шт', price:320, cat:'kg'},
+  {id:5, emoji:'🍜', name:'Лагман Кашкар', desc:'Гүйрү', price:290, cat:'kg'},
+  {id:6, emoji:'☕', name:'Sierra Coffee', desc:'Капучино', price:390, cat:'cafe'},
+  {id:7, emoji:'🥤', name:'Coca Cola', desc:'2 литра', price:120, cat:'fast'},
+  {id:8, emoji:'🥐', name:'Boor Cafe', desc:'Эспрессо', price:150, cat:'cafe'},
+];
+const MARKET = [
+  {id:1, emoji:'🥖', name:'Хлеб', desc:'Свежий', price:45, cat:'food'},
+  {id:2, emoji:'🥛', name:'Молоко Арашан', desc:'1 л', price:85, cat:'drink'},
+  {id:3, emoji:'🍎', name:'Яблоки', desc:'1 кг', price:120, cat:'food'},
+  {id:4, emoji:'🍗', name:'Курица Тойбос', desc:'1 кг', price:380, cat:'food'},
+  {id:5, emoji:'🍚', name:'Рис Узгенский', desc:'1 кг', price:180, cat:'food'},
+  {id:6, emoji:'🧀', name:'Сыр', desc:'500 г', price:240, cat:'food'},
+  {id:7, emoji:'🍫', name:'Шоколад', desc:'Токтогул', price:95, cat:'sweet'},
+  {id:8, emoji:'🥤', name:'Шоро Максым', desc:'0.5 л', price:50, cat:'drink'},
+];
+const ATTRACTIONS = [
+  {emoji:'⛰️', name:'Иссык-Куль', loc:'Каракол', rating:'4.9', price:'Бесплатно', dist:'6 часов', bg:'linear-gradient(135deg,#4FACFE,#00F2FE)'},
+  {emoji:'🏔️', name:'Ала-Арча', loc:'Бишкек · 45 км', rating:'4.8', price:'200 с.', dist:'1 час', bg:'linear-gradient(135deg,#43E97B,#38F9D7)'},
+  {emoji:'🐎', name:'Сон-Куль', loc:'Нарын', rating:'4.9', price:'Бесплатно', dist:'5 часов', bg:'linear-gradient(135deg,#FA709A,#FEE140)'},
+  {emoji:'🏛️', name:'Бурана', loc:'Токмок', rating:'4.7', price:'150 с.', dist:'1.5 часа', bg:'linear-gradient(135deg,#F093FB,#F5576C)'},
+  {emoji:'🌊', name:'Григорьевка', loc:'Иссык-Куль', rating:'4.8', price:'250 с.', dist:'4 часа', bg:'linear-gradient(135deg,#667EEA,#764BA2)'},
+  {emoji:'⛲', name:'Площадь Ала-Тоо', loc:'Бишкек Центр', rating:'4.6', price:'Бесплатно', dist:'5 мин', bg:'linear-gradient(135deg,#30CFD0,#667EEA)'},
+];
+const HOTELS = [
+  {emoji:'🏨', name:'Hyatt Regency', loc:'Бишкек', rating:'4.9', price:'8 500 с.', dist:'5★ SPA', bg:'linear-gradient(135deg,#667EEA,#764BA2)'},
+  {emoji:'🏩', name:'Orion Bishkek', loc:'Эркиндик', rating:'4.7', price:'5 900 с.', dist:'4★', bg:'linear-gradient(135deg,#F093FB,#F5576C)'},
+  {emoji:'🏘️', name:'Plaza Hotel', loc:'Чуй 116', rating:'4.6', price:'3 400 с.', dist:'3★', bg:'linear-gradient(135deg,#4FACFE,#00F2FE)'},
+  {emoji:'⛰️', name:'Karagat Resort', loc:'Чолпон-Ата', rating:'4.8', price:'4 200 с.', dist:'У озера', bg:'linear-gradient(135deg,#43E97B,#38F9D7)'},
+];
+const ROUTES = {
+  '42':{name:'№42 · Тогуз Булак → Жибек Жолу', stops:['Тогуз Булак','Юнусалиева','Токомбаева','Баялинова','ЦУМ','Филармония','Вокзал','Жибек Жолу'], busAt:3},
+  '7':{name:'№7 · Аламедин → Ортосай', stops:['Аламедин-1','Токтогула','Советская','Ошский рынок','Ала-Тоо','Панфилова','Ортосай'], busAt:2},
+  '38':{name:'№38 · Asia Mall → АЗС', stops:['Asia Mall','Ак-Орго','Моссовет','Политех','Медакадемия','АЗС'], busAt:4},
+};
+const UTILITIES = [
+  {emoji:'💡', name:'Северэлектро', desc:'Л/с 1234567890', price:890},
+  {emoji:'💧', name:'Горводоканал', desc:'Л/с 9876543210', price:340},
+  {emoji:'🔥', name:'Кыргызгаз', desc:'Л/с 5551112233', price:620},
+  {emoji:'🚮', name:'Тазалык', desc:'Л/с 1112223334', price:180},
+  {emoji:'📡', name:'Saima Telecom', desc:'Безлимит', price:890},
+  {emoji:'🏠', name:'Квартплата', desc:'КСК Бишкек', price:450},
+];
+const TUNDUK = [
+  {emoji:'📄', name:'Справка о несудимости', desc:'Онлайн', price:250},
+  {emoji:'🪪', name:'Замена паспорта', desc:'Запись и оплата', price:1500},
+  {emoji:'🚗', name:'Техосмотр авто', desc:'Госпошлина', price:400},
+  {emoji:'👶', name:'Справка о рождении', desc:'Повторная выдача', price:180},
+  {emoji:'🎓', name:'Диплом', desc:'Подтверждение', price:550},
+  {emoji:'🏥', name:'Мед. полис', desc:'ФОМС', price:1200},
+];
+const TICKETS = [
+  {emoji:'🎤', name:'Концерт Atai Омуров', desc:'25 апр · Бишкек Арена', price:1500, bg:'linear-gradient(135deg,#FA709A,#FEE140)'},
+  {emoji:'🎬', name:'Аватар 3', desc:'Сегодня · 19:30', price:350, bg:'linear-gradient(135deg,#30CFD0,#667EEA)'},
+  {emoji:'⚽', name:'Абдыш-Ата', desc:'22 апр · Стадион', price:500, bg:'linear-gradient(135deg,#43E97B,#38F9D7)'},
+  {emoji:'🚌', name:'Автобус Бишкек-Ош', desc:'Завтра 08:00', price:850, bg:'linear-gradient(135deg,#F093FB,#F5576C)'},
+  {emoji:'✈️', name:'Бишкек-Алматы', desc:'30 апр · Air Astana', price:6500, bg:'linear-gradient(135deg,#4FACFE,#00F2FE)'},
+];
+
+let DB=null, cart=new Map(), cartCtx='', curTable=5, delivF='all', marketF='all', crmTimer=null;
+
+function loadDB(){try{const s=localStorage.getItem('sp_db_v9');if(s){DB=JSON.parse(s);return}}catch(e){}DB=JSON.parse(JSON.stringify(DEFAULT));saveDB()}
+function saveDB(){try{localStorage.setItem('sp_db_v9',JSON.stringify(DB))}catch(e){}}
+function resetDemo(){if(!confirm('Сбросить демо?'))return;localStorage.removeItem('sp_db_v9');DB=JSON.parse(JSON.stringify(DEFAULT));saveDB();toast('✅ Сброшено','ok');refreshAll()}
+
+function toast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(type?' '+type:'');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2800)}
+const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const fmt=n=>Number(n||0).toLocaleString('ru-RU')+' с.';
+function fmtDT(s){try{const d=new Date(s),now=new Date(),diff=(now-d)/1000;if(diff<60)return'только что';if(diff<3600)return Math.floor(diff/60)+' мин назад';if(d.toDateString()===now.toDateString())return'Сегодня '+d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});return d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})}catch{return s||''}}
+
+function setBal(b){DB.balance=b;saveDB();const v=fmt(b);['w-bal','h-bal-small','acc-bal'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent=v;if(id==='w-bal'){el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump')}}})}
+
+function showPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  const page=document.getElementById('page-'+p);if(page)page.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page===p));
+  document.querySelector('.content').scrollTop=0;
+  if(p!=='cafe'&&p!=='delivery'&&p!=='market'){cart.clear();updateCartBar()}
+  if(p==='home')loadHome();
+  if(p==='pocket')loadWallet();
+  if(p==='crm')renderCRM();
+}
+
+function openApp(app){
+  cart.clear();
+  if(app==='cafe'){cartCtx='cafe';renderCafeMenu();showPage('cafe')}
+  else if(app==='delivery'){cartCtx='delivery';renderDelivery();showPage('delivery')}
+  else if(app==='market'){cartCtx='market';renderMarket();showPage('market')}
+  else if(app==='crm'){renderCRM();showPage('crm')}
+  else if(app==='transport'){renderTransport();showPage('transport')}
+  else if(app==='attractions'){renderAttractions();showPage('attractions')}
+  else if(app==='hotels'){renderHotels();showPage('hotels')}
+  else if(app==='utilities'){renderUtilities();showPage('utilities')}
+  else if(app==='tunduk'){renderTunduk();showPage('tunduk')}
+  else if(app==='mobile')showPage('mobile');
+  else if(app==='tickets'){renderTickets();showPage('tickets')}
+}
+
+function setTab(el,id){
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  ['regular','travel','food','city','gov'].forEach(t=>{const x=document.getElementById('tab-'+t);if(x)x.style.display=t===id?'grid':'none'});
+}
+
+function loadHome(){
+  document.getElementById('h-bal-small').textContent=fmt(DB.balance);
+  renderTXs('h-tx',DB.txs.slice(-5).reverse());
+}
+function renderTXs(id,txs){
+  const el=document.getElementById(id);
+  if(!txs||!txs.length){el.innerHTML='<div class="empty-block"><div class="empty-block-ico">💳</div>Нет операций</div>';return}
+  el.innerHTML=txs.map(t=>{
+    const amt=(t.incoming?'+':'−')+fmt(t.amount);
+    const bg=t.incoming?'var(--green-l)':'var(--primary-l)';
+    return `<div class="tx-item"><div class="tx-ico" style="background:${bg}">${t.icon||'💳'}</div><div class="tx-info"><div class="tx-name">${esc(t.name)}</div><div class="tx-desc">${esc(t.desc||'')}</div></div><div class="tx-right"><div class="tx-amt ${t.incoming?'plus':''}">${amt}</div><div class="tx-date">${fmtDT(t.date)}</div></div></div>`;
+  }).join('');
+}
+
+function topupFn(){
+  const a=prompt('Сумма пополнения (сом)','5000');
+  if(!a)return;const n=Number(a);if(!n||n<=0){toast('Неверная сумма','err');return}
+  setBal(DB.balance+n);
+  DB.txs.push({id:DB.nextTxId++,icon:'💰',name:'Пополнение',desc:'Через MBANK',amount:n,incoming:true,date:new Date().toISOString()});
+  saveDB();toast('✅ Пополнено '+fmt(n),'ok');loadWallet()
+}
+
+function transferFn(){
+  const to=prompt('Логин получателя','manager');if(!to)return;
+  const a=prompt('Сумма (сом)','500');if(!a)return;const n=Number(a);
+  if(!n||n<=0){toast('Неверная сумма','err');return}
+  if(n>DB.balance){toast('Недостаточно','err');return}
+  setBal(DB.balance-n);
+  DB.txs.push({id:DB.nextTxId++,icon:'💸',name:'Перевод',desc:'→ '+to,amount:n,incoming:false,date:new Date().toISOString()});
+  saveDB();toast('✅ Переведено '+fmt(n),'ok');loadWallet()
+}
+
+function loadWallet(){document.getElementById('w-bal').textContent=fmt(DB.balance);renderTXs('w-tx',DB.txs.slice().reverse())}
+
+// CAFE
+function renderCafeMenu(){
+  const el=document.getElementById('cafe-menu-list');
+  const cats=[{key:'hot',l:'🔥 Горячее'},{key:'tea',l:'🍵 Напитки'},{key:'bake',l:'🥐 Выпечка'}];
+  el.innerHTML=cats.map(c=>{
+    const ds=CAFE_MENU.filter(d=>d.cat===c.key);
+    return `<div class="menu-cat">${c.l}</div>`+ds.map(d=>{
+      const q=cart.get(d.id)||0;
+      return `<div class="dish-card ${q>0?'in-cart':''}" onclick="event.target.closest('.dc-qty,.dc-add')||toggleDish(${d.id})">
+        <div class="dc-emoji">${d.emoji}</div>
+        <div class="dc-info"><div class="dc-name">${esc(d.name)}</div><div class="dc-descr">${esc(d.descr)}</div><div class="dc-price">${fmt(d.price)}</div></div>
+        ${q>0?`<div class="dc-qty"><button onclick="event.stopPropagation();changeQty(${d.id},-1)">−</button><span class="qty">${q}</span><button onclick="event.stopPropagation();changeQty(${d.id},1)">+</button></div>`:`<div class="dc-add">+</div>`}
+      </div>`;
+    }).join('');
+  }).join('');
+  updateCartBar();
+}
+function toggleDish(id){if(cart.has(id))cart.delete(id);else cart.set(id,1);rerenderCurrent()}
+function changeQty(id,d){const q=(cart.get(id)||0)+d;if(q<=0)cart.delete(id);else cart.set(id,q);rerenderCurrent()}
+function rerenderCurrent(){if(cartCtx==='cafe')renderCafeMenu();else if(cartCtx==='delivery')renderDelivery();else if(cartCtx==='market')renderMarket()}
+
+function getMenuData(){if(cartCtx==='cafe')return CAFE_MENU;if(cartCtx==='delivery')return DELIVERY;if(cartCtx==='market')return MARKET;return[]}
+
+function updateCartBar(){
+  const bar=document.getElementById('cart-bar');
+  if(cart.size===0){bar.classList.remove('show');return}
+  const data=getMenuData();let sum=0,count=0;
+  cart.forEach((q,id)=>{const it=data.find(x=>x.id===id);if(it){sum+=it.price*q;count+=q}});
+  document.getElementById('cl-c').textContent=count+' '+(count===1?'позиция':count<5?'позиции':'позиций');
+  document.getElementById('cl-s').textContent=fmt(sum);
+  const btn=document.getElementById('cart-btn');
+  if(sum>DB.balance){btn.style.background='var(--red)';btn.textContent='Недостаточно';btn.disabled=true}
+  else{btn.style.background='var(--green)';btn.textContent='Оплатить →';btn.disabled=false}
+  bar.classList.add('show');
+}
+
+function checkoutCart(){
+  const data=getMenuData();let sum=0,items=[];
+  cart.forEach((q,id)=>{const it=data.find(x=>x.id===id);if(it){sum+=it.price*q;items.push({name:it.name,qty:q,emoji:it.emoji,price:it.price})}});
+  if(sum<=0)return;
+  if(sum>DB.balance){toast('❌ Недостаточно','err');return}
+  setBal(DB.balance-sum);
+  let title,sub,merchant;
+  if(cartCtx==='cafe'){title='Заказ принят!';sub='Передан на кухню';merchant='Sierra Coffee · Стол №'+curTable;DB.orders.push({id:DB.nextOrderId++,orderId:'ORD-'+Date.now().toString(36).toUpperCase(),table:curTable,items,sum,status:'new',date:new Date().toISOString()})}
+  else if(cartCtx==='delivery'){title='Заказ оформлен!';sub='Доставим за 20-40 мин';merchant='Доставка еды'}
+  else{title='Покупка совершена!';sub='Ждите курьера';merchant='Маркет'}
+  DB.txs.push({id:DB.nextTxId++,icon:cartCtx==='cafe'?'☕':cartCtx==='delivery'?'🚚':'🛒',name:merchant,desc:items.map(i=>i.emoji+' '+i.name).join(', '),amount:sum,incoming:false,date:new Date().toISOString()});
+  saveDB();cart.clear();
+  showSuccess({title,sub,amount:sum,items,merchant});
+}
+
+function showSuccess({title,sub,amount,items,merchant}){
+  document.getElementById('success-title').textContent=title;
+  document.getElementById('success-sub').textContent=sub;
+  document.getElementById('success-amount').textContent=fmt(amount);
+  document.getElementById('success-receipt').innerHTML=`
+    ${merchant?`<div class="receipt-row"><span class="receipt-label">Где</span><span class="receipt-value">${esc(merchant)}</span></div>`:''}
+    ${items&&items.length?`<div class="receipt-items">${items.map(i=>`<div class="receipt-item"><span>${i.emoji} ${esc(i.name)}${i.qty>1?' ×'+i.qty:''}</span><span>${fmt(i.price*i.qty)}</span></div>`).join('')}</div>`:''}
+    <div class="receipt-row"><span class="receipt-label">Время</span><span class="receipt-value">${new Date().toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span></div>
+    <div class="receipt-row"><span class="receipt-label">Оплата</span><span class="receipt-value">САЛАМ PAY</span></div>
+  `;
+  document.getElementById('success-overlay').classList.add('open');
+  if(navigator.vibrate)navigator.vibrate(200);
+}
+function closeSuccess(){document.getElementById('success-overlay').classList.remove('open');showPage('home')}
+
+// TAXI
+function selectTaxi(el){document.querySelectorAll('.taxi-type').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');document.getElementById('taxi-sum').textContent=el.dataset.price+' с.'}
+function bookTaxi(){
+  const sel=document.querySelector('.taxi-type.sel');const price=Number(sel.dataset.price);
+  if(DB.balance<price){toast('Недостаточно','err');return}
+  setBal(DB.balance-price);
+  DB.txs.push({id:DB.nextTxId++,icon:'🚕',name:'Такси',desc:document.getElementById('taxi-to').value,amount:price,incoming:false,date:new Date().toISOString()});
+  saveDB();
+  showSuccess({title:'Такси заказано!',sub:'Водитель прибудет через 4 мин',amount:price,items:[{name:'Поездка',emoji:'🚕',qty:1,price}],merchant:document.getElementById('taxi-from').value+' → '+document.getElementById('taxi-to').value});
+}
+
+// DELIVERY
+function filterDelivery(c,btn){delivF=c;document.querySelectorAll('#page-delivery .filter-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderDelivery()}
+function renderDelivery(){cartCtx='delivery';const el=document.getElementById('delivery-grid');const items=delivF==='all'?DELIVERY:DELIVERY.filter(x=>x.cat===delivF);el.innerHTML=items.map(d=>`<div class="product" onclick="addCart(${d.id},'delivery')"><div class="product-img">${d.emoji}</div><div class="product-name">${esc(d.name)}</div><div class="product-desc">${esc(d.desc)}</div><div class="product-price">${fmt(d.price)}</div><div class="product-plus">+</div></div>`).join('');updateCartBar()}
+
+// MARKET
+function filterMarket(c,btn){marketF=c;document.querySelectorAll('#page-market .filter-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderMarket()}
+function renderMarket(){cartCtx='market';const el=document.getElementById('market-grid');const items=marketF==='all'?MARKET:MARKET.filter(x=>x.cat===marketF);el.innerHTML=items.map(d=>`<div class="product" onclick="addCart(${d.id},'market')"><div class="product-img">${d.emoji}</div><div class="product-name">${esc(d.name)}</div><div class="product-desc">${esc(d.desc)}</div><div class="product-price">${fmt(d.price)}</div><div class="product-plus">+</div></div>`).join('');updateCartBar()}
+function addCart(id,ctx){cartCtx=ctx;cart.set(id,(cart.get(id)||0)+1);toast('✅ В корзине','ok');updateCartBar()}
+
+// CRM
+function debounceCRM(){clearTimeout(crmTimer);crmTimer=setTimeout(renderCRM,300)}
+function addClient(){
+  const name=document.getElementById('c-name').value.trim();if(!name){toast('Имя','err');return}
+  DB.clients.unshift({id:DB.nextClientId++,name,phone:document.getElementById('c-phone').value.trim(),city:document.getElementById('c-city').value,stage:document.getElementById('c-stage').value,sum:Number(document.getElementById('c-sum').value)||0,created:new Date().toISOString().slice(0,10)});
+  saveDB();['c-name','c-phone','c-sum'].forEach(id=>document.getElementById(id).value='');toast('✅','ok');renderCRM();
+}
+function delClient(id){if(!confirm('Удалить?'))return;DB.clients=DB.clients.filter(c=>c.id!==id);saveDB();renderCRM()}
+function renderCRM(){
+  const q=document.getElementById('crm-q').value.trim().toLowerCase();
+  let cls=DB.clients;if(q)cls=cls.filter(c=>(c.name||'').toLowerCase().includes(q));
+  const SC={new:'#38BDF8',contact:'#F59E0B',deal:'#F97316',done:'#00C48C'};
+  const card=c=>`<div class="cc" style="border-color:${SC[c.stage]}" onclick="editStage(${c.id})"><div class="cc-name">${esc(c.name)}</div><div class="cc-phone">${esc(c.phone||'')}</div>${c.city?`<div class="cc-phone">📍 ${esc(c.city)}</div>`:''}${c.sum?`<div class="cc-sum">${fmt(c.sum)}</div>`:''}<div class="cc-btn" onclick="event.stopPropagation()"><button class="btn sm ghost" onclick="delClient(${c.id})">🗑</button></div></div>`;
+  ['new','contact','deal','done'].forEach(s=>{const col=cls.filter(c=>c.stage===s);document.getElementById('kc-'+s).textContent=col.length;document.getElementById('kk-'+s).innerHTML=col.length?col.map(card).join(''):'<div class="empty-block"><div class="empty-block-ico">📭</div>Пусто</div>'});
+}
+function editStage(id){const c=DB.clients.find(x=>x.id===id);if(!c)return;const s=['new','contact','deal','done'];c.stage=s[(s.indexOf(c.stage)+1)%4];saveDB();renderCRM();toast('→ '+({new:'Новый',contact:'Контакт',deal:'Сделка',done:'Закрыт'})[c.stage])}
+
+// TRANSPORT
+function renderTransport(){const el=document.getElementById('route-chips');el.innerHTML=Object.keys(ROUTES).map((r,i)=>`<button class="route-chip ${i===0?'active':''}" onclick="showRoute('${r}',this)">№${r}</button>`).join('');showRoute(Object.keys(ROUTES)[0])}
+function showRoute(r,btn){if(btn){document.querySelectorAll('.route-chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active')}const route=ROUTES[r];document.getElementById('stop-list').innerHTML=`<div style="font-weight:800;margin-bottom:12px">${route.name}</div>`+route.stops.map((s,i)=>{const isBus=i===route.busAt;const eta=(i-route.busAt)*2;return `<div class="stop ${isBus?'bus':''}"><div class="stop-dot"></div><div class="stop-name">${isBus?'🚌 ':''}${esc(s)}</div><div class="stop-time">${isBus?'здесь':eta>0?'~'+eta+' мин':''}</div></div>`}).join('')}
+
+// ATTRACTIONS
+function renderAttractions(){document.getElementById('attractions-list').innerHTML=ATTRACTIONS.map(p=>`<div class="place-card" onclick="toast('📍 ${esc(p.name)}')"><div class="place-img" style="background:${p.bg}">${p.emoji}</div><div class="place-info"><div class="place-name">${esc(p.name)}</div><div class="place-loc">📍 ${esc(p.loc)}</div><div class="place-meta"><span class="place-rate">⭐ ${p.rating}</span><span class="place-price">${esc(p.price)}</span></div><div class="place-dist">🚗 ${esc(p.dist)}</div></div></div>`).join('')}
+
+// HOTELS
+function renderHotels(){document.getElementById('hotels-list').innerHTML=HOTELS.map((h,i)=>`<div class="place-card" onclick="bookHotel(${i})"><div class="place-img" style="background:${h.bg}">${h.emoji}</div><div class="place-info"><div class="place-name">${esc(h.name)}</div><div class="place-loc">📍 ${esc(h.loc)}</div><div class="place-meta"><span class="place-rate">⭐ ${h.rating}</span><span class="place-price">${esc(h.price)}</span></div><div class="place-dist">🏨 ${esc(h.dist)}</div></div></div>`).join('')}
+function bookHotel(i){const h=HOTELS[i];const price=parseInt(h.price.replace(/\D/g,''));if(!confirm(`Забронировать «${h.name}» за ${fmt(price)}?`))return;if(DB.balance<price){toast('Недостаточно','err');return}setBal(DB.balance-price);DB.txs.push({id:DB.nextTxId++,icon:'🏨',name:'Отель',desc:h.name,amount:price,incoming:false,date:new Date().toISOString()});saveDB();showSuccess({title:'Забронировано!',sub:h.name,amount:price,items:[{name:h.name,emoji:h.emoji,qty:1,price}],merchant:h.loc})}
+
+// UTILITIES
+function renderUtilities(){document.getElementById('utilities-list').innerHTML=UTILITIES.map((u,i)=>`<div class="card" style="display:flex;align-items:center;gap:12px"><div style="width:48px;height:48px;background:var(--bg);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">${u.emoji}</div><div style="flex:1"><div style="font-weight:700">${esc(u.name)}</div><div style="font-size:11px;color:var(--text3);margin-top:2px">${esc(u.desc)}</div></div><div style="text-align:right"><div style="font-weight:800;font-family:var(--mono);color:var(--primary)">${fmt(u.price)}</div><button class="btn sm" style="margin-top:4px" onclick="payUtil(${i})">Оплатить</button></div></div>`).join('')}
+function payUtil(i){const u=UTILITIES[i];if(DB.balance<u.price){toast('Недостаточно','err');return}setBal(DB.balance-u.price);DB.txs.push({id:DB.nextTxId++,icon:u.emoji,name:u.name,desc:u.desc,amount:u.price,incoming:false,date:new Date().toISOString()});saveDB();showSuccess({title:'Оплачено!',sub:u.name,amount:u.price,items:[{name:u.name,emoji:u.emoji,qty:1,price:u.price}],merchant:u.desc})}
+
+// TUNDUK
+function renderTunduk(){document.getElementById('tunduk-list').innerHTML=`<div class="info-note" style="background:var(--primary-l)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><div>Вы авторизованы · ИНН: 20412199501234</div></div>`+TUNDUK.map((t,i)=>`<div class="card" style="display:flex;align-items:center;gap:12px"><div style="width:48px;height:48px;background:var(--red-l);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">${t.emoji}</div><div style="flex:1"><div style="font-weight:700">${esc(t.name)}</div><div style="font-size:11px;color:var(--text3);margin-top:2px">${esc(t.desc)}</div></div><div style="text-align:right"><div style="font-weight:800;font-family:var(--mono);color:var(--primary)">${fmt(t.price)}</div><button class="btn sm" style="margin-top:4px" onclick="payTund(${i})">Заказать</button></div></div>`).join('')}
+function payTund(i){const t=TUNDUK[i];if(DB.balance<t.price){toast('Недостаточно','err');return}setBal(DB.balance-t.price);DB.txs.push({id:DB.nextTxId++,icon:t.emoji,name:'Түндүк',desc:t.name,amount:t.price,incoming:false,date:new Date().toISOString()});saveDB();showSuccess({title:'Заказано!',sub:t.name,amount:t.price,items:[{name:t.name,emoji:t.emoji,qty:1,price:t.price}],merchant:'Түндүк'})}
+
+// MOBILE
+function setMobSum(v){document.getElementById('mob-sum').value=v}
+function payMobile(){const op=document.getElementById('mob-op').value;const num=document.getElementById('mob-num').value.trim();const sum=Number(document.getElementById('mob-sum').value);if(!num||!sum||sum<10){toast('Заполните','err');return}if(DB.balance<sum){toast('Недостаточно','err');return}setBal(DB.balance-sum);DB.txs.push({id:DB.nextTxId++,icon:'📱',name:op,desc:num,amount:sum,incoming:false,date:new Date().toISOString()});saveDB();showSuccess({title:'Пополнено!',sub:op+' · '+num,amount:sum,items:[{name:'Счёт',emoji:'📱',qty:1,price:sum}],merchant:op})}
+
+// TICKETS
+function renderTickets(){document.getElementById('tickets-list').innerHTML=TICKETS.map((t,i)=>`<div class="place-card" onclick="buyTicket(${i})"><div class="place-img" style="background:${t.bg}">${t.emoji}</div><div class="place-info"><div class="place-name">${esc(t.name)}</div><div class="place-loc" style="margin-top:4px">${esc(t.desc)}</div><div style="margin-top:6px"><span class="place-price">${fmt(t.price)}</span></div></div></div>`).join('')}
+function buyTicket(i){const t=TICKETS[i];if(!confirm(`Купить «${t.name}» за ${fmt(t.price)}?`))return;if(DB.balance<t.price){toast('Недостаточно','err');return}setBal(DB.balance-t.price);DB.txs.push({id:DB.nextTxId++,icon:t.emoji,name:t.name,desc:t.desc,amount:t.price,incoming:false,date:new Date().toISOString()});saveDB();showSuccess({title:'Билет куплен!',sub:t.name,amount:t.price,items:[{name:t.name,emoji:t.emoji,qty:1,price:t.price}],merchant:t.desc})}
+
+// KITCHEN
+function showKitchen(){document.getElementById('app').style.display='none';document.getElementById('kitchen-screen').classList.add('active');loadKitchen()}
+function closeKitchen(){document.getElementById('kitchen-screen').classList.remove('active');document.getElementById('app').style.display='flex'}
+function loadKitchen(){
+  const orders=DB.orders.slice().reverse();
+  const pending=orders.filter(o=>o.status!=='ready').length;
+  const today=new Date().toDateString();
+  const done=DB.orders.filter(o=>o.status==='ready'&&new Date(o.date).toDateString()===today).length;
+  const rev=DB.orders.filter(o=>new Date(o.date).toDateString()===today).reduce((a,o)=>a+o.sum,0);
+  document.getElementById('k-pending').textContent=pending;
+  document.getElementById('k-done-today').textContent=done;
+  document.getElementById('k-revenue').textContent=fmt(rev);
+  const grid=document.getElementById('kitchen-grid');
+  if(!orders.length){grid.innerHTML='<div class="empty-kitchen"><div style="font-size:56px;margin-bottom:12px;opacity:.3">👨‍🍳</div><p>Заказов нет</p><p style="font-size:11px;margin-top:6px;opacity:.5">Откройте Кафе → оформите заказ</p></div>';return}
+  grid.innerHTML=orders.map(o=>`<div class="order-card ${o.status==='ready'?'ready':''}"><div class="order-top"><div class="table-badge">Стол №${o.table}</div><div class="paid-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>${o.status==='ready'?'ГОТОВО':'ОПЛАЧЕНО'}</div></div><ul class="order-items">${o.items.map(it=>`<li class="order-item"><span>${it.emoji} ${esc(it.name)}</span><span>×${it.qty}</span></li>`).join('')}</ul><div class="order-meta"><div class="om-time">${fmtDT(o.date)}</div><div class="om-total">${fmt(o.sum)}</div></div>${o.status==='ready'?'':`<button class="order-btn" onclick="markReady(${o.id})">✓ Готово</button>`}</div>`).join('');
+}
+function markReady(id){const o=DB.orders.find(x=>x.id===id);if(o){o.status='ready';saveDB();loadKitchen()}}
+
+// QR
+function drawQR(tok){const c=document.getElementById('qr-c');if(!c)return;const ctx=c.getContext('2d'),sz=160,m=23,cl=sz/m;ctx.fillStyle='#fff';ctx.fillRect(0,0,sz,sz);const sr=i=>{const x=Math.sin(i*9301+49297+tok.charCodeAt(i%tok.length)*233)*100003;return x-Math.floor(x)};const corner=(x,y)=>{ctx.fillStyle='#141414';ctx.fillRect(x*cl,y*cl,7*cl,7*cl);ctx.fillStyle='#fff';ctx.fillRect((x+1)*cl,(y+1)*cl,5*cl,5*cl);ctx.fillStyle='#141414';ctx.fillRect((x+2)*cl,(y+2)*cl,3*cl,3*cl)};corner(0,0);corner(m-7,0);corner(0,m-7);ctx.fillStyle='#141414';const pd=cl*.12;for(let r=0;r<m;r++)for(let co=0;co<m;co++){if((r<8&&co<8)||(r<8&&co>=m-8)||(r>=m-8&&co<8))continue;if(r>=10&&r<=12&&co>=10&&co<=12)continue;if(sr(r*m+co)>.48)ctx.fillRect(co*cl+pd,r*cl+pd,cl-pd*2,cl-pd*2)}ctx.fillStyle='#fff';ctx.fillRect(9*cl,9*cl,5*cl,5*cl);ctx.fillStyle='#1677FF';ctx.fillRect(10*cl,10*cl,3*cl,3*cl);ctx.fillStyle='#fff';ctx.font='bold '+(cl*1.6)+'px Manrope';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('S',sz/2,sz/2+1)}
+
+function refreshAll(){loadHome();loadWallet();renderCRM()}
+
+// INIT
+loadDB();
+drawQR('SALAMPAY_'+Date.now());
+loadHome();
+// NFC from URL
+const urlP=new URLSearchParams(window.location.search);
+const tbl=parseInt(urlP.get('table'));
+if(tbl){curTable=tbl;document.getElementById('cafe-table').textContent='№'+tbl;setTimeout(()=>openApp('cafe'),300)}
+</script>
+</body>
+</html>
